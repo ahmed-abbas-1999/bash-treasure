@@ -15,7 +15,6 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);padding:24px 16px 60px;line-height:1.5}
   .wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-  a{color:var(--text-2)}
   .head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .title{font-size:20px;font-weight:600}
   .head-right{display:flex;align-items:center;gap:16px}
@@ -26,6 +25,24 @@
   .presets{display:flex;gap:8px;flex-wrap:wrap}
   .preset{border:1px solid var(--border);background:transparent;color:var(--text-2);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;transition:.15s}
   .preset:hover{color:var(--text);border-color:var(--text)}
+
+  /* ── صف الأمر بالمربعات ── */
+  .cmdbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--mono);font-size:13px}
+  .cmdbar .pfx{color:var(--text-2)}
+  .box{border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:var(--text);transition:.15s;background:transparent;max-width:100%}
+  .box:hover{border-color:var(--text)}
+  .box.active{border-color:var(--text);background:rgba(255,255,255,.08)}
+  .box.empty{color:var(--text-4);border-style:dashed}
+  .box .chip{white-space:nowrap}
+  .box .info{font-size:11px;color:var(--text-3);border:1px dashed var(--text-4);border-radius:6px;padding:0 6px;white-space:nowrap}
+  .box input{font-family:var(--mono);font-size:12.5px;border:none;background:transparent;color:var(--text);width:150px;padding:2px 0}
+  .box input:focus{outline:none}
+  .box input::placeholder{color:var(--text-4)}
+  .tgt-end{color:var(--text-3)}
+
+  .back-btn{align-self:flex-start;border:none;background:transparent;color:var(--text-2);font-size:13px;cursor:pointer;padding:5px 10px;border-radius:6px;display:none}
+  .back-btn:hover{color:var(--text);background:rgba(255,255,255,.06)}
+
   .cols{display:grid;grid-template-columns:1fr;gap:16px}
   @media(min-width:860px){.cols{grid-template-columns:1.25fr 1fr}}
   .cats{display:flex;flex-direction:column;gap:8px}
@@ -42,7 +59,7 @@
   .flag-row input[type=checkbox]{accent-color:var(--text);margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer}
   .flag-main{flex:1;min-width:0}
   .flag-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .flag-name{font-family:var(--mono);font-size:13.5px;font-weight:600;color:var(--text)}
+  .flag-name{font-family:var(--mono);font-size:13.5px;font-weight:600}
   .flag-label{font-size:13.5px;color:var(--text-2)}
   .flag-hint{font-size:12px;color:var(--text-3);margin-top:2px;line-height:1.45}
   .flag-val{font-family:var(--mono);font-size:12.5px;border:1px solid var(--border);border-radius:6px;padding:4px 9px;width:140px;background:transparent;color:var(--text)}
@@ -50,17 +67,22 @@
   .tag{font-size:11px;border-radius:6px;padding:2px 7px;font-weight:600}
   .tag-root{color:var(--danger);background:rgba(229,72,77,.14)}
   .tag-adv{color:var(--text-3);background:rgba(255,255,255,.07)}
+  .q-btn{width:17px;height:17px;border-radius:50%;border:1px solid var(--text-4);background:transparent;color:var(--text-3);font-size:11px;line-height:1;cursor:pointer;flex-shrink:0;padding:0;transition:.15s;display:inline-flex;align-items:center;justify-content:center}
+  .q-btn:hover{border-color:var(--text);color:var(--text)}
+  .deep-box{font-size:12px;color:var(--text-2);background:rgba(255,255,255,.04);border-left:2px solid var(--text-4);border-radius:0 6px 6px 0;padding:8px 11px;margin-top:5px;line-height:1.6}
+  .cancels{margin-top:6px;font-size:12px;color:var(--warn)}
+  .cancels b{font-weight:600}
   .adv-toggle{align-self:flex-start;margin-top:6px;border:none;background:transparent;color:var(--text-3);font-size:12.5px;cursor:pointer;padding:5px 8px;border-radius:6px}
   .adv-toggle:hover{color:var(--text);background:rgba(255,255,255,.06)}
   .cmd-panel{display:flex;flex-direction:column;gap:12px;position:sticky;top:16px;align-self:start}
-  .target-wrap{display:flex;align-items:center;gap:8px}
-  .target-wrap span{font-size:13px;color:var(--text-2);white-space:nowrap}
-  .target-input{flex:1;font-family:var(--mono);font-size:13.5px;border:1px solid var(--border);border-radius:10px;padding:9px 12px;background:transparent;color:var(--text);min-width:0}
-  .target-input:focus{outline:none;border-color:var(--text)}
-  .cmd-box{border:1px solid var(--border);border-radius:12px;background:var(--bg-soft);padding:14px;min-height:90px}
+  .cmd-box{border:1px solid var(--border);border-radius:12px;background:var(--bg-soft);padding:14px}
   .cmd{font-family:var(--mono);font-size:13.5px;line-height:1.75;word-break:break-all;white-space:pre-wrap}
   .cmd .dim{color:var(--text-3)}
   .cmd .flag-part{font-weight:600}
+  .sum-box{border:1px dashed var(--border);border-radius:12px;padding:12px 14px}
+  .sum-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+  .sum-box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+  .sum-box li{font-size:13px;color:var(--text-2);line-height:1.5}
   .warn-box{display:flex;flex-direction:column;gap:6px}
   .warn{font-size:12.5px;color:var(--warn);background:rgba(240,180,41,.1);border-radius:8px;padding:8px 11px;line-height:1.5}
   .foot{font-size:12px;color:var(--text-4)}
@@ -79,12 +101,16 @@
   </div>
 
   <div class="presets" id="presets"></div>
+  <div class="cmdbar" id="cmdbar"></div>
 
   <div class="cols">
-    <div class="cats" id="cats"></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <button class="back-btn" id="backBtn">← all sections</button>
+      <div class="cats" id="cats"></div>
+    </div>
     <div class="cmd-panel">
-      <div class="target-wrap"><span>target</span><input class="target-input" id="target" placeholder="10.10.10.10 or 192.168.1.0/24"></div>
       <div class="cmd-box"><div class="cmd" id="cmdOut"></div></div>
+      <div class="sum-box"><div class="sum-title">what this command will do</div><ul id="sumList"></ul></div>
       <div class="warn-box" id="warnOut"></div>
       <div class="foot" id="footCount"></div>
     </div>
@@ -103,158 +129,157 @@ const CATS = [
   { id:'output', name:'Output' },
   { id:'misc', name:'Misc' },
 ];
+const BOXES = ['target','discovery','portscan','detection','scripts','perf','evasion','output','misc'];
+const BOX_LABEL = {target:'target',discovery:'discovery',portscan:'port scan',detection:'detect',scripts:'script',perf:'perf',evasion:'evasion',output:'output',misc:'misc'};
+const INFO_CHIPS = {
+  discovery:[{t:'ARP auto',d:'runs automatically for local targets — has no flag'}],
+  portscan:[{t:'top-1000',d:'default port list, not a flag — override with -p, -F, --top-ports or --port-ratio'}]
+};
 
 const FLAGS = [
-  // target
-  { cat:'target', flag:'-iL', label:'Input list', hint:'read targets from a file', value:'hosts.txt' },
-  { cat:'target', flag:'-iR', label:'Random targets', hint:'choose n random hosts (0 = endless)', value:'100', adv:true },
-  { cat:'target', flag:'--exclude', label:'Exclude', hint:'skip hosts/networks: 10.0.0.5,10.0.1.0/24', value:'10.0.0.5' },
-  { cat:'target', flag:'--excludefile', label:'Exclude file', hint:'exclusions from a file', value:'exclude.txt', adv:true },
-  { cat:'target', flag:'--dns-servers', label:'DNS servers', hint:'resolve via custom nameservers', value:'8.8.8.8', adv:true },
-  { cat:'target', flag:'--system-dns', label:'System DNS', hint:'use the OS resolver instead', adv:true },
-  { cat:'target', flag:'-R', label:'Resolve all', hint:'reverse-DNS every target, even dead ones', adv:true },
-  { cat:'target', flag:'--resolve-all', label:'Resolve all addrs', hint:'scan every IP a hostname resolves to', adv:true },
-  // discovery
-  { cat:'discovery', flag:'-sn', label:'Ping scan only', hint:'host discovery without port scanning' },
-  { cat:'discovery', flag:'-Pn', label:'No ping', hint:'skip discovery, scan every target as if alive' },
-  { cat:'discovery', flag:'-sL', label:'List scan', hint:'print targets only, send zero packets', adv:true },
-  { cat:'discovery', flag:'-PE', label:'ICMP echo', hint:'classic ping probe' },
-  { cat:'discovery', flag:'-PP', label:'ICMP timestamp', hint:'echo blocked? ask for the time instead' },
-  { cat:'discovery', flag:'-PM', label:'ICMP netmask', hint:'rare — address mask request probe', adv:true },
-  { cat:'discovery', flag:'-PS443', label:'TCP SYN ping', hint:'syn to 443 → syn/ack | rst proves host is up', root:true },
-  { cat:'discovery', flag:'-PA80', label:'TCP ACK ping', hint:'ack to 80 → rst slips past stateless firewalls', root:true },
-  { cat:'discovery', flag:'-PU', label:'UDP ping', hint:'udp probe → icmp unreachable means alive', root:true },
-  { cat:'discovery', flag:'-PY', label:'SCTP INIT ping', hint:'sctp four-way-handshake probe', root:true, adv:true },
-  { cat:'discovery', flag:'-PO', label:'IP protocol ping', hint:'icmp/igmp/ip-in-ip probes', root:true, adv:true },
-  { cat:'discovery', flag:'--disable-arp-ping', label:'No ARP ping', hint:'never use arp/nd discovery (proxy-arp networks)', adv:true },
-  { cat:'discovery', flag:'--discovery-ignore-rst', label:'Ignore RST', hint:'ignore spoofed RSTs during discovery', adv:true },
-  { cat:'discovery', flag:'--traceroute', label:'Traceroute', hint:'map hops after the scan' },
-  { cat:'discovery', flag:'-n', label:'No DNS', hint:'never resolve names — faster' },
-  // port scan
-  { cat:'portscan', flag:'-sS', label:'SYN scan', hint:'syn → syn/ack → rst · half-open, default', root:true, group:'scantype', def:true },
-  { cat:'portscan', flag:'-sT', label:'Connect scan', hint:'syn → syn/ack → ack → fin · full handshake, no root needed', group:'scantype' },
-  { cat:'portscan', flag:'-sU', label:'UDP scan', hint:'empty udp packet → icmp unreachable = closed', root:true, group:'scantype' },
-  { cat:'portscan', flag:'-sA', label:'ACK scan', hint:'never shows open ports — maps firewall rules only', root:true, group:'scantype' },
-  { cat:'portscan', flag:'-sN', label:'NULL scan', hint:'no flags set · sneaks past some filters', root:true, group:'scantype' },
-  { cat:'portscan', flag:'-sF', label:'FIN scan', hint:'fin flag only · similar to null', root:true, group:'scantype' },
-  { cat:'portscan', flag:'-sX', label:'Xmas scan', hint:'fin+psh+urg — lights the packet like a tree', root:true, group:'scantype' },
-  { cat:'portscan', flag:'-sW', label:'Window scan', hint:'reads tcp window size in RST replies — unreliable', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-sM', label:'Maimon scan', hint:'fin/ack — works on some old BSD systems', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-sI', label:'Idle scan', hint:'blind scan via a zombie host', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-sO', label:'IP protocol scan', hint:'which IP protocols (tcp/icmp/igmp...) are supported', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-sY', label:'SCTP INIT scan', hint:'sctp half-open scan', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-sZ', label:'SCTP cookie echo', hint:'quieter than init, but open|filtered only', root:true, group:'scantype', adv:true },
-  { cat:'portscan', flag:'-b', label:'FTP bounce scan', hint:'abuse a vulnerable ftp server to scan for you', adv:true },
-  { cat:'portscan', flag:'--scanflags', label:'Custom flags', hint:'design your own tcp flags: URGACKPSHRSTSYNFIN', value:'FIN', root:true, adv:true },
-  { cat:'portscan', flag:'-p', label:'Ports', hint:'22,80,443 · 1-1000 · or -p- for all', value:'22,80,443', group:'ports' },
-  { cat:'portscan', flag:'-p-', label:'All ports', hint:'every port from 1 to 65535', group:'ports' },
-  { cat:'portscan', flag:'-F', label:'Fast', hint:'top 100 ports instead of 1000', group:'ports' },
-  { cat:'portscan', flag:'--top-ports', label:'Top ports', hint:'scan the n most common ports', value:'100', group:'ports' },
-  { cat:'portscan', flag:'-r', label:'Sequential', hint:'scan ports in order, no randomization', adv:true },
-  { cat:'portscan', flag:'--exclude-ports', label:'Exclude ports', hint:'never touch these ports', value:'9100', adv:true },
-  { cat:'portscan', flag:'--port-ratio', label:'Port ratio', hint:'scan ports more common than ratio 0-1', value:'0.01', adv:true },
-  // detection
-  { cat:'detection', flag:'-sV', label:'Version detection', hint:'probe services for name + version' },
-  { cat:'detection', flag:'--version-light', label:'Light version', hint:'faster, fewer probes (intensity 2)' },
-  { cat:'detection', flag:'--version-intensity', label:'Intensity', hint:'0 (light) to 9 (try everything), default 7', value:'9', adv:true },
-  { cat:'detection', flag:'--version-all', label:'Version all', hint:'try every single probe (intensity 9)', adv:true },
-  { cat:'detection', flag:'--version-trace', label:'Version trace', hint:'debug what version scanning is doing', adv:true },
-  { cat:'detection', flag:'--allports', label:'All ports probe', hint:'do not skip port 9100 (printers print garbage!)', adv:true },
-  { cat:'detection', flag:'-O', label:'OS detection', hint:'tcp/ip stack fingerprinting', root:true },
-  { cat:'detection', flag:'--osscan-limit', label:'Limit OS scan', hint:'only fingerprint hosts with open+closed port', adv:true },
-  { cat:'detection', flag:'--osscan-guess', label:'Guess OS', hint:'aggressively guess when no exact match' },
-  { cat:'detection', flag:'--max-os-tries', label:'OS retries', hint:'attempts per OS fingerprint, default 5', value:'1', adv:true },
-  { cat:'detection', flag:'-A', label:'Aggressive', hint:'= -sV + -sC + -O + traceroute' },
-  // scripts
-  { cat:'scripts', flag:'-sC', label:'Default scripts', hint:'runs the safe default NSE set' },
-  { cat:'scripts', flag:'--script', label:'Script', hint:'name, category or wildcard — "smb-enum-*"', value:'vuln' },
-  { cat:'scripts', flag:'--script-args', label:'Script args', hint:'key=value pairs passed to scripts', value:'user=admin' },
-  { cat:'scripts', flag:'--script-args-file', label:'Args file', hint:'load script args from a file', value:'args.txt', adv:true },
-  { cat:'scripts', flag:'--script-help', label:'Script help', hint:'show docs for a script, then exit', value:'ftp-anon', adv:true },
-  { cat:'scripts', flag:'--script-trace', label:'Script trace', hint:'print all data scripts send/receive', adv:true },
-  { cat:'scripts', flag:'--script-updatedb', label:'Update script db', hint:'reindex after adding custom scripts', adv:true },
-  // performance
-  { cat:'perf', flag:'-T0', label:'Paranoid', hint:'serial, 5 min between probes', group:'timing' },
-  { cat:'perf', flag:'-T1', label:'Sneaky', hint:'15s between probes', group:'timing' },
-  { cat:'perf', flag:'-T2', label:'Polite', hint:'0.4s between probes', group:'timing' },
-  { cat:'perf', flag:'-T3', label:'Normal', hint:'the default behavior', group:'timing' },
-  { cat:'perf', flag:'-T4', label:'Aggressive', hint:'recommended for labs + reliable networks', group:'timing', def:true },
-  { cat:'perf', flag:'-T5', label:'Insane', hint:'sacrifices accuracy for speed', group:'timing' },
-  { cat:'perf', flag:'--min-rate', label:'Min rate', hint:'packets/sec floor — e.g. 10000', value:'10000' },
-  { cat:'perf', flag:'--max-rate', label:'Max rate', hint:'packets/sec ceiling', value:'100', adv:true },
-  { cat:'perf', flag:'--max-retries', label:'Max retries', hint:'cap retransmissions — 2 speeds up slow hosts', value:'2' },
-  { cat:'perf', flag:'--host-timeout', label:'Host timeout', hint:'give up on a host after this long', value:'5m' },
-  { cat:'perf', flag:'--scan-delay', label:'Scan delay', hint:'wait between probes — beats rate limiting', value:'1s', adv:true },
-  { cat:'perf', flag:'--max-scan-delay', label:'Max scan delay', hint:'largest delay nmap may use', value:'10s', adv:true },
-  { cat:'perf', flag:'--script-timeout', label:'Script timeout', hint:'kill scripts running longer than this', value:'10m', adv:true },
-  { cat:'perf', flag:'--max-rtt-timeout', label:'Max RTT timeout', hint:'wait time for probe replies', value:'300ms', adv:true },
-  { cat:'perf', flag:'--initial-rtt-timeout', label:'Initial RTT', hint:'starting probe timeout', value:'250ms', adv:true },
-  { cat:'perf', flag:'--defeat-rst-ratelimit', label:'Ignore RST limits', hint:'faster, but closed ports look filtered', root:true, adv:true },
-  { cat:'perf', flag:'--defeat-icmp-ratelimit', label:'Ignore ICMP limits', hint:'faster UDP scans, less accurate', root:true, adv:true },
-  { cat:'perf', flag:'--nsock-engine', label:'IO engine', hint:'epoll, kqueue, poll or select', value:'epoll', adv:true },
-  // evasion
-  { cat:'evasion', flag:'-f', label:'Fragment', hint:'split the tcp header across tiny packets', root:true },
-  { cat:'evasion', flag:'-D', label:'Decoys', hint:'cloak scan behind fake sources — RND:10', value:'RND:10', root:true },
-  { cat:'evasion', flag:'--source-port', label:'Source port', hint:'trusted ports slip in: 53, 88, 20', value:'53' },
-  { cat:'evasion', flag:'--spoof-mac', label:'Spoof MAC', hint:'0 = fully random mac · Apple, Cisco, 0020F2', value:'0', root:true },
-  { cat:'evasion', flag:'--data-length', label:'Data length', hint:'append n random bytes to probes', value:'25' },
-  { cat:'evasion', flag:'-S', label:'Spoof source IP', hint:'scan appears to come from another address', value:'10.0.0.5', root:true, adv:true },
-  { cat:'evasion', flag:'-e', label:'Interface', hint:'send/receive on a specific interface', value:'eth0', adv:true },
-  { cat:'evasion', flag:'--data', label:'Hex payload', hint:'append custom binary data to packets', value:'0xdeadbeef', root:true, adv:true },
-  { cat:'evasion', flag:'--data-string', label:'String payload', hint:'append custom ascii to packets', value:'hello', adv:true },
-  { cat:'evasion', flag:'--ip-options', label:'IP options', hint:'record route, timestamps, source routing', value:'R', root:true, adv:true },
-  { cat:'evasion', flag:'--ttl', label:'TTL', hint:'set IP time-to-live', value:'64', adv:true },
-  { cat:'evasion', flag:'--randomize-hosts', label:'Randomize hosts', hint:'shuffle target order to evade monitoring', root:true, adv:true },
-  { cat:'evasion', flag:'--proxies', label:'Proxies', hint:'relay via http/socks4 chain — http://p:8080', value:'http://127.0.0.1:8080', adv:true },
-  { cat:'evasion', flag:'--badsum', label:'Bad checksum', hint:'bogus checksums — replies mean firewall/ids', root:true, adv:true },
-  { cat:'evasion', flag:'--adler32', label:'Adler32 SCTP', hint:'legacy sctp checksum for old systems', root:true, adv:true },
-  // output
-  { cat:'output', flag:'-oN', label:'Normal output', hint:'human-readable log file', value:'scan.nmap' },
-  { cat:'output', flag:'-oX', label:'XML output', hint:'for reports and parsers', value:'scan.xml' },
-  { cat:'output', flag:'-oA', label:'All formats', hint:'normal + xml + grepable at once', value:'scan' },
-  { cat:'output', flag:'-oG', label:'Grepable', hint:'one host per line — deprecated but handy', value:'scan.gnmap', adv:true },
-  { cat:'output', flag:'-oS', label:'Script kiddie', hint:'l33t h4x0r 0utPUt format (yes, really)', value:'scan.sk3', adv:true },
-  { cat:'output', flag:'-v', label:'Verbose', hint:'show results as they arrive' },
-  { cat:'output', flag:'--reason', label:'Reasons', hint:'why is each port in this state?' },
-  { cat:'output', flag:'--open', label:'Open only', hint:'hide closed and filtered noise' },
-  { cat:'output', flag:'-d', label:'Debug', hint:'flood of internals — for devs', adv:true },
-  { cat:'output', flag:'--stats-every', label:'Stats interval', hint:'progress report every N', value:'10s', adv:true },
-  { cat:'output', flag:'--packet-trace', label:'Packet trace', hint:'print every packet sent/received', root:true, adv:true },
-  { cat:'output', flag:'--iflist', label:'List interfaces', hint:'show interfaces and routes, then exit', adv:true },
-  { cat:'output', flag:'--append-output', label:'Append', hint:'add to output files instead of overwriting', adv:true },
-  { cat:'output', flag:'--resume', label:'Resume', hint:'continue an aborted scan from a log file', value:'scan.nmap', adv:true },
-  { cat:'output', flag:'--noninteractive', label:'No keyboard', hint:'ignore runtime keypresses (background runs)', adv:true },
-  { cat:'output', flag:'--stylesheet', label:'Stylesheet', hint:'custom XSL for the XML output', value:'https://nmap.org/svn/docs/nmap.xsl', adv:true },
-  // misc
-  { cat:'misc', flag:'-6', label:'IPv6', hint:'scan IPv6 targets — syntax: -6 fe80::1%eth0' },
-  { cat:'misc', flag:'--privileged', label:'Assume privileged', hint:'skip the root checks (capabilities setups)' },
-  { cat:'misc', flag:'--unprivileged', label:'Assume unprivileged', hint:'force non-privileged mode for testing', adv:true },
-  { cat:'misc', flag:'--send-eth', label:'Raw ethernet', hint:'send at data-link layer, bypassing IP layer', root:true, adv:true },
-  { cat:'misc', flag:'--send-ip', label:'Raw IP', hint:'send via raw IP sockets (default on unix)', root:true, adv:true },
-  { cat:'misc', flag:'--datadir', label:'Data dir', hint:'custom location for nmap data files', value:'/opt/nmap', adv:true },
-  { cat:'misc', flag:'--release-memory', label:'Release memory', hint:'free memory before exit — leak debugging', adv:true },
+  { cat:"target", flag:"-iL", label:"Input list", hint:"read targets from a file", value:"hosts.txt" },
+  { cat:"target", flag:"-iR", label:"Random targets", hint:"choose n random hosts (0 = endless)", value:"100", adv:true },
+  { cat:"target", flag:"--exclude", label:"Exclude", hint:"skip hosts/networks: 10.0.0.5,10.0.1.0/24", value:"10.0.0.5" },
+  { cat:"target", flag:"--excludefile", label:"Exclude file", hint:"exclusions from a file", value:"exclude.txt", adv:true },
+  { cat:"target", flag:"--dns-servers", label:"DNS servers", hint:"resolve via custom nameservers", value:"8.8.8.8", adv:true },
+  { cat:"target", flag:"--system-dns", label:"System DNS", hint:"use the OS resolver instead", adv:true },
+  { cat:"target", flag:"-R", label:"Resolve all", hint:"reverse-DNS every target, even dead ones", adv:true },
+  { cat:"target", flag:"--resolve-all", label:"Resolve all addrs", hint:"scan every IP a hostname resolves to", adv:true },
+  { cat:"discovery", flag:"-sn", label:"Ping scan only", hint:"skip the default loud 1000 port scan \u2014 host discovery only", deep:"sends ARP (local), ICMP echo, ICMP timestamp, SYN to 443, ACK to 80 \u2014 reports live hosts, no port scan", sum:"discover live hosts only, no port scanning" },
+  { cat:"discovery", flag:"-Pn", label:"No ping", hint:"dont check who is alive and who is not, just scan the ports for all the ips given (some firewalls filter discovery probes)", deep:"skips host discovery entirely, scans every target as alive \u2014 slower but catches hosts that hide from ICMP", sum:"skip discovery, scan all targets directly" },
+  { cat:"discovery", flag:"-sL", label:"List scan", hint:"print targets only, send zero packets", deep:"list targets and resolve names only \u2014 zero packets sent to targets. great sanity check before a big scan", sum:"list targets only, send nothing", adv:true },
+  { cat:"discovery", flag:"-PE", label:"ICMP echo", hint:"use only ICMP echo for host discovery, ignore the rest unless other flags mention them", deep:"sends ICMP type 8 (echo request), expects type 0 reply \u2014 same as the ping command, but often blocked by firewalls", sum:"use ICMP echo (classic ping) for discovery", cancels:"the default discovery set (echo + timestamp + syn:443 + ack:80) \u2014 only your selected probes run", def:true },
+  { cat:"discovery", flag:"-PP", label:"ICMP timestamp", hint:"use only ICMP timestamp for discovery \u2014 slips past firewalls that block echo but forget other ICMP types", deep:"sends ICMP type 13 (timestamp request), expects type 14 \u2014 any reply proves the host is alive", sum:"use ICMP timestamp for discovery", cancels:"the default discovery set (echo + timestamp + syn:443 + ack:80) \u2014 only your selected probes run", def:true },
+  { cat:"discovery", flag:"-PM", label:"ICMP netmask", hint:"use ICMP netmask request for discovery \u2014 rare, like timestamp", deep:"sends ICMP type 17 (address mask request), expects type 18 \u2014 third ICMP type; useful when echo AND timestamp are both blocked", sum:"use ICMP netmask for discovery", adv:true },
+  { cat:"discovery", flag:"-PS443", label:"TCP SYN ping", hint:"send TCP SYN to port 443 for discovery \u2014 any reply (syn/ack or rst) proves the host is alive", deep:"sends an empty SYN packet to 443 (port is configurable) \u2014 doesn't care if the port is open, any response = host up", sum:"TCP SYN ping to port 443", cancels:"the default discovery set (echo + timestamp + syn:443 + ack:80) \u2014 only your selected probes run", root:true, def:true },
+  { cat:"discovery", flag:"-PA80", label:"TCP ACK ping", hint:"send bare TCP ACK to port 80 \u2014 the host", deep:"ACK claims to be part of an existing connection (there isn't one), so the target always replies RST \u2014 root only", sum:"TCP ACK ping to port 80", cancels:"the default discovery set (echo + timestamp + syn:443 + ack:80) \u2014 only your selected probes run", root:true, def:true },
+  { cat:"discovery", flag:"-PU", label:"UDP ping", hint:"send a UDP packet for discovery \u2014 passes firewalls that only filter TCP", deep:"sends empty UDP to a rare port (default 40125) \u2014 a closed port replies ICMP port unreachable which proves the host is up", sum:"UDP ping (default port 40125)", root:true },
+  { cat:"discovery", flag:"-PY", label:"SCTP INIT ping", hint:"SCTP INIT ping \u2014 like SYN ping but for the SCTP protocol", deep:"sends SCTP INIT chunk (default port 80) \u2014 INIT-ACK or ABORT reply proves the host is alive. rare protocol, root only", sum:"SCTP INIT ping", root:true, adv:true },
+  { cat:"discovery", flag:"-PO", label:"IP protocol ping", hint:"ping using raw IP protocols (ICMP/IGMP/IP-in-IP by default)", deep:"sends IP packets with protocol numbers in the header \u2014 a reply in the same protocol or protocol unreachable proves life", sum:"IP protocol ping", root:true, adv:true },
+  { cat:"discovery", flag:"--disable-arp-ping", label:"No ARP ping", hint:"never use ARP/ND discovery \u2014 for networks with proxy-ARP", deep:"by default nmap ARPs local targets even with -Pn. on proxy-ARP networks every target falsely appears up \u2014 this fixes that", sum:"disable ARP discovery", adv:true },
+  { cat:"discovery", flag:"--discovery-ignore-rst", label:"Ignore RST", hint:"ignore RST replies during discovery \u2014 some firewalls spoof them to fake alive hosts", deep:"firewalls may answer RST for dead IPs, making nmap waste time scanning ghosts. with this, only non-RST proofs count as up", sum:"ignore spoofed RST during discovery", adv:true },
+  { cat:"discovery", flag:"--traceroute", label:"Traceroute", hint:"map the network path (hops) to each target after scanning", deep:"sends low-TTL packets post-scan to reveal intermediate routers \u2014 works with all scan types except -sT and -sI", sum:"trace route to targets after scan" },
+  { cat:"discovery", flag:"-n", label:"No DNS", hint:"never resolve IP addresses to hostnames \u2014 faster scans", deep:"skips reverse-DNS lookups. DNS can be slow even with nmap's parallel resolver, so this can cut scan time significantly", sum:"skip DNS resolution" },
+  { cat:"portscan", flag:"-sS", label:"SYN scan", hint:"syn \u2192 syn/ack \u2192 rst \u00b7 half-open, default as root", deep:"sends SYN, never completes the handshake \u2014 the target's kernel sees no connection, so most services log nothing. fast and works against any rfc-compliant tcp stack. default when running as root", sum:"scan with SYN (half-open, no full connection)", root:true, group:"scantype", def:true },
+  { cat:"portscan", flag:"-sT", label:"Connect scan", hint:"syn \u2192 syn/ack \u2192 ack \u2192 fin \u00b7 full handshake, no root needed", deep:"asks the OS to connect() like a normal app. slower, and the target's services log complete connections \u2014 but it is your only option without raw-packet privileges", sum:"scan with full TCP connect handshake", cancels:"the default -sS (when you are not root)", group:"scantype" },
+  { cat:"portscan", flag:"-sU", label:"UDP scan", hint:"empty udp packet \u2192 icmp unreachable = closed", deep:"no handshake in udp \u2014 closed ports answer icmp port unreachable, open ones usually stay silent (open|filtered). brutally slow because silence forces retransmits. combine with --top-ports and -sV to resolve the open|filtered state", sum:"scan UDP ports (finds DNS, SNMP, DHCP)", root:true, group:"scantype" },
+  { cat:"portscan", flag:"-sA", label:"ACK scan", hint:"never shows open ports \u2014 maps firewall rules only", deep:"bare ACK packets: unfiltered ports answer RST, filtered ones stay silent. tells you which ports the firewall blocks, not what is behind it. pair with -sS to learn both", sum:"map firewall rules (which ports are filtered)", root:true, group:"scantype" },
+  { cat:"portscan", flag:"-sN", label:"NULL scan", hint:"no flags set \u00b7 sneaks past some filters", deep:"abuses RFC 793: a closed port must RST any segment without syn/rst/ack; an open port drops it. no reply = open|filtered. windows and cisco answer RST on everything \u2014 useless there. works on most unix systems", sum:"NULL scan \u2014 no TCP flags", root:true, group:"scantype" },
+  { cat:"portscan", flag:"-sF", label:"FIN scan", hint:"fin flag only \u00b7 similar to null", deep:"same loophole as -sN, just the FIN bit set. same caveats: useless against windows and some cisco gear", sum:"FIN scan", root:true, group:"scantype" },
+  { cat:"portscan", flag:"-sX", label:"Xmas scan", hint:"fin+psh+urg \u2014 lights the packet like a tree", deep:"the christmas tree scan: three flags at once. same RFC 793 trick, slightly more exotic. again \u2014 not for windows targets", sum:"Xmas scan (fin+psh+urg)", root:true, group:"scantype" },
+  { cat:"portscan", flag:"-sW", label:"Window scan", hint:"reads tcp window size in RST replies \u2014 unreliable", deep:"like -sA but peeks at the TCP window field of RST replies: some systems return positive windows on open ports, zero on closed. depends on a rare implementation quirk \u2014 treat results with suspicion", sum:"window scan \u2014 unreliable OS quirk", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-sM", label:"Maimon scan", hint:"fin/ack \u2014 works on some old BSD systems", deep:"Maimon scan (Phrack #49): RFC says RST for fin/ack on closed ports, but many BSD-derived systems silently DROP it on open ones. only useful against those old stacks", sum:"Maimon scan (old BSD targets)", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-sI", label:"Idle scan", hint:"blind scan via a zombie host", deep:"the stealth king: no packet to the target ever carries your IP. exploits predictable IP-ID counters on a third zombie host to infer open ports. complex, needs a suitable zombie \u2014 see nmap.org/book/idlescan.html", sum:"idle scan through a zombie (your IP never appears)", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-sO", label:"IP protocol scan", hint:"which IP protocols (tcp/icmp/igmp...) are supported", deep:"not a port scan \u2014 iterates IP protocol numbers (0-255). replies or protocol unreachable tell you what is supported. niche but great for unusual environments", sum:"discover supported IP protocols", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-sY", label:"SCTP INIT scan", hint:"sctp half-open scan", deep:"SCTP is a tcp/udp hybrid used mostly in telecom (SS7/SIGTRAN). INIT scan is its SYN scan: INIT-ACK = open, ABORT = closed. rarely seen in the wild", sum:"SCTP INIT scan", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-sZ", label:"SCTP cookie echo", hint:"quieter than init, but open|filtered only", deep:"sends COOKIE-ECHO chunks: open ports silently drop them, closed ports send ABORT. stealthier than -sY but cannot separate open from filtered", sum:"SCTP cookie-echo scan", root:true, group:"scantype", adv:true },
+  { cat:"portscan", flag:"-b", label:"FTP bounce scan", hint:"abuse a vulnerable ftp server to scan for you", deep:"FTP bounce (RFC 959 proxy feature): ask an old misconfigured FTP server to send files to target ports \u2014 its error messages reveal open/closed. mostly dead since 1997, but the ftp-bounce NSE script still checks for it", sum:"FTP bounce scan via vulnerable server", adv:true },
+  { cat:"portscan", flag:"--scanflags", label:"Custom flags", hint:"design your own tcp flags", deep:"mash any combo of URG ACK PSH RST SYN FIN, e.g. --scanflags URGACKPSH. pair with a base scan type (-sA/-sF...) so nmap knows how to interpret replies. great for IDS research", sum:"custom TCP flags", value:"FIN", root:true, adv:true },
+  { cat:"portscan", flag:"-p", label:"Ports", hint:"22,80,443 \u00b7 1-1000 \u00b7 or -p- for all", deep:"overrides the default top-1000. single ports, ranges, and combos: -p 22,80,443 or -p 1-1000. add U: or T: to mix protocols: -p U:53,111,T:21-25,80. named ports work too: -p http,https", sum:"scan specific ports only", cancels:"the default top-1000 port list", value:"22,80,443", group:"ports" },
+  { cat:"portscan", flag:"-p-", label:"All ports", hint:"every port from 1 to 65535", deep:"the full range \u2014 catches services hiding on unusual high ports. slow unless you add --min-rate 10000. classic two-phase: -p- first, then -sV -sC on what you find", sum:"scan all 65535 ports", cancels:"the default top-1000 port list", group:"ports" },
+  { cat:"portscan", flag:"-F", label:"Fast", hint:"top 100 ports instead of 1000", deep:"fast mode: trims the default list to the 100 most common. good first pass when time matters more than coverage", sum:"fast scan \u2014 top 100 ports", cancels:"the default top-1000 port list", group:"ports" },
+  { cat:"portscan", flag:"--top-ports", label:"Top ports", hint:"scan the n most common ports", deep:"any number you like: --top-ports 50 for a quick sweep, 5000 for deeper coverage with less pain than -p-. based on nmap-services frequency data", sum:"scan the N most common ports", cancels:"the default top-1000 port list", value:"100", group:"ports" },
+  { cat:"portscan", flag:"-r", label:"Sequential", hint:"scan ports in order, no randomization", deep:"by default nmap shuffles port order (and front-loads likely ones). -r goes 1,2,3... sequentially \u2014 useful for reproducing results or debugging, slightly easier for IDS to spot", sum:"sequential port order", adv:true },
+  { cat:"portscan", flag:"--exclude-ports", label:"Exclude ports", hint:"never touch these ports", deep:"the mirror of -p: skip specific ports/ranges everywhere, including during discovery. e.g. skip 9100 so printers don't spew pages", sum:"exclude specific ports from scanning", value:"9100", adv:true },
+  { cat:"portscan", flag:"--port-ratio", label:"Port ratio", hint:"scan ports more common than ratio 0-1", deep:"frequency-based: --port-ratio 0.01 scans every port in nmap-services with >=1% occurrence. finer control than --top-ports for custom sweeps", sum:"scan ports above a frequency ratio", cancels:"the default top-1000 port list", value:"0.01", adv:true },
+  { cat:"detection", flag:"-sV", label:"Version detection", hint:"probe open ports for service name + version", deep:"sends protocol-specific probes to every open port and matches replies against nmap-service-probes (~6500 patterns). version numbers feed straight into searchsploit \u2014 the single most valuable flag after the scan itself", sum:"detect service names and versions", cancels:"nothing \u2014 it adds a phase after port scanning" },
+  { cat:"detection", flag:"--version-light", label:"Light version", hint:"faster version detection with fewer probes", deep:"intensity 2 instead of 7 \u2014 tries only the most common probes. slightly less accurate, noticeably faster on big scans", sum:"quick version detection (intensity 2)", cancels:"default version intensity 7" },
+  { cat:"detection", flag:"--version-intensity", label:"Intensity", hint:"set version probe intensity 0-9", deep:"0 = almost nothing, 9 = every probe in the database. default is 7. raise it when -sV gives a vague answer, lower it for speed", sum:"custom version detection intensity", cancels:"default version intensity 7", value:"9", adv:true },
+  { cat:"detection", flag:"--version-all", label:"Version all", hint:"try every single version probe", deep:"shorthand for --version-intensity 9. slowest but most thorough \u2014 use when a stubborn service won't identify", sum:"maximum version detection (intensity 9)", cancels:"default version intensity 7", adv:true },
+  { cat:"detection", flag:"--version-trace", label:"Version trace", hint:"debug output for version scanning", deep:"prints every probe sent and response received during -sV \u2014 for understanding what nmap is doing, or reporting bugs", sum:"trace version detection activity", cancels:"nothing", adv:true },
+  { cat:"detection", flag:"--allports", label:"All ports probe", hint:"don't skip port 9100 during version detection", deep:"by default -sV skips 9100 because printers print anything sent to them \u2014 pages of garbage. this flag removes that safety", sum:"version-probe every port including 9100", cancels:"the default 9100 exclusion in version detection", adv:true },
+  { cat:"detection", flag:"-O", label:"OS detection", hint:"remote OS detection via tcp/ip stack fingerprinting", deep:"sends a series of tcp/udp probes and compares responses against 2600+ known fingerprints (tcp options ordering, window sizes, ISN sampling...). needs at least one open + one closed port for best results. root only", sum:"fingerprint the operating system", cancels:"nothing \u2014 adds a detection phase", root:true },
+  { cat:"detection", flag:"--osscan-limit", label:"Limit OS scan", hint:"only fingerprint hosts that have open + closed ports", deep:"OS detection is unreliable without both. this skips fingerprinting when conditions are poor \u2014 saves time on -Pn scans of many hosts", sum:"OS-detect only promising hosts", cancels:"nothing \u2014 it limits instead", adv:true },
+  { cat:"detection", flag:"--osscan-guess", label:"Guess OS", hint:"guess harder when no exact OS match", deep:"by default nmap only prints near-perfect matches. this makes it offer close candidates with confidence percentages \u2014 sometimes a 90% guess is all you get, and it is usually right", sum:"show approximate OS guesses", cancels:"default strict matching" },
+  { cat:"detection", flag:"--max-os-tries", label:"OS retries", hint:"limit OS detection attempts per host", deep:"default 5 tries (2 when conditions are bad). setting 1 speeds up scans at the cost of accuracy \u2014 fine when you already suspect the OS", sum:"limit OS fingerprint retries", cancels:"default retry count (5)", value:"1", adv:true },
+  { cat:"detection", flag:"-A", label:"Aggressive", hint:"the kitchen sink: -sV + -sC + -O + traceroute", deep:"one flag that enables aggressive detection. noisy and slower, but the standard i-want-everything scan for labs. enable extra detection flags with it and nmap politely ignores the duplicates", sum:"aggressive mode (version + scripts + OS + traceroute)", cancels:"nothing \u2014 implies -sV, -sC, -O, --traceroute" },
+  { cat:"scripts", flag:"-sC", label:"Default scripts", hint:"runs the safe default NSE set" },
+  { cat:"scripts", flag:"--script", label:"Script", hint:"name, category or wildcard \u2014 \"smb-enum-*\"", value:"vuln" },
+  { cat:"scripts", flag:"--script-args", label:"Script args", hint:"key=value pairs passed to scripts", value:"user=admin" },
+  { cat:"scripts", flag:"--script-args-file", label:"Args file", hint:"load script args from a file", value:"args.txt", adv:true },
+  { cat:"scripts", flag:"--script-help", label:"Script help", hint:"show docs for a script, then exit", value:"ftp-anon", adv:true },
+  { cat:"scripts", flag:"--script-trace", label:"Script trace", hint:"print all data scripts send/receive", adv:true },
+  { cat:"scripts", flag:"--script-updatedb", label:"Update script db", hint:"reindex after adding custom scripts", adv:true },
+  { cat:"perf", flag:"-T0", label:"Paranoid", hint:"serial, 5 min between probes", group:"timing" },
+  { cat:"perf", flag:"-T1", label:"Sneaky", hint:"15s between probes", group:"timing" },
+  { cat:"perf", flag:"-T2", label:"Polite", hint:"0.4s between probes", group:"timing" },
+  { cat:"perf", flag:"-T3", label:"Normal", hint:"the default behavior", group:"timing" },
+  { cat:"perf", flag:"-T4", label:"Aggressive", hint:"recommended for labs + reliable networks", group:"timing", def:true },
+  { cat:"perf", flag:"-T5", label:"Insane", hint:"sacrifices accuracy for speed", group:"timing" },
+  { cat:"perf", flag:"--min-rate", label:"Min rate", hint:"packets/sec floor \u2014 e.g. 10000", value:"10000" },
+  { cat:"perf", flag:"--max-rate", label:"Max rate", hint:"packets/sec ceiling", value:"100", adv:true },
+  { cat:"perf", flag:"--max-retries", label:"Max retries", hint:"cap retransmissions \u2014 2 speeds up slow hosts", value:"2" },
+  { cat:"perf", flag:"--host-timeout", label:"Host timeout", hint:"give up on a host after this long", value:"5m" },
+  { cat:"perf", flag:"--scan-delay", label:"Scan delay", hint:"wait between probes \u2014 beats rate limiting", value:"1s", adv:true },
+  { cat:"perf", flag:"--max-scan-delay", label:"Max scan delay", hint:"largest delay nmap may use", value:"10s", adv:true },
+  { cat:"perf", flag:"--script-timeout", label:"Script timeout", hint:"kill scripts running longer than this", value:"10m", adv:true },
+  { cat:"perf", flag:"--max-rtt-timeout", label:"Max RTT timeout", hint:"wait time for probe replies", value:"300ms", adv:true },
+  { cat:"perf", flag:"--initial-rtt-timeout", label:"Initial RTT", hint:"starting probe timeout", value:"250ms", adv:true },
+  { cat:"perf", flag:"--defeat-rst-ratelimit", label:"Ignore RST limits", hint:"faster, but closed ports look filtered", root:true, adv:true },
+  { cat:"perf", flag:"--defeat-icmp-ratelimit", label:"Ignore ICMP limits", hint:"faster UDP scans, less accurate", root:true, adv:true },
+  { cat:"perf", flag:"--nsock-engine", label:"IO engine", hint:"epoll, kqueue, poll or select", value:"epoll", adv:true },
+  { cat:"evasion", flag:"-f", label:"Fragment", hint:"split the tcp header across tiny packets", root:true },
+  { cat:"evasion", flag:"-D", label:"Decoys", hint:"cloak scan behind fake sources \u2014 RND:10", value:"RND:10", root:true },
+  { cat:"evasion", flag:"--source-port", label:"Source port", hint:"trusted ports slip in: 53, 88, 20", value:"53" },
+  { cat:"evasion", flag:"--spoof-mac", label:"Spoof MAC", hint:"0 = fully random mac \u00b7 Apple, Cisco, 0020F2", value:"0", root:true },
+  { cat:"evasion", flag:"--data-length", label:"Data length", hint:"append n random bytes to probes", value:"25" },
+  { cat:"evasion", flag:"-S", label:"Spoof source IP", hint:"scan appears to come from another address", value:"10.0.0.5", root:true, adv:true },
+  { cat:"evasion", flag:"-e", label:"Interface", hint:"send/receive on a specific interface", value:"eth0", adv:true },
+  { cat:"evasion", flag:"--data", label:"Hex payload", hint:"append custom binary data to packets", value:"0xdeadbeef", root:true, adv:true },
+  { cat:"evasion", flag:"--data-string", label:"String payload", hint:"append custom ascii to packets", value:"hello", adv:true },
+  { cat:"evasion", flag:"--ip-options", label:"IP options", hint:"record route, timestamps, source routing", value:"R", root:true, adv:true },
+  { cat:"evasion", flag:"--ttl", label:"TTL", hint:"set IP time-to-live", value:"64", adv:true },
+  { cat:"evasion", flag:"--randomize-hosts", label:"Randomize hosts", hint:"shuffle target order to evade monitoring", root:true, adv:true },
+  { cat:"evasion", flag:"--proxies", label:"Proxies", hint:"relay via http/socks4 chain \u2014 http://p:8080", value:"http://127.0.0.1:8080", adv:true },
+  { cat:"evasion", flag:"--badsum", label:"Bad checksum", hint:"bogus checksums \u2014 replies mean firewall/ids", root:true, adv:true },
+  { cat:"evasion", flag:"--adler32", label:"Adler32 SCTP", hint:"legacy sctp checksum for old systems", root:true, adv:true },
+  { cat:"output", flag:"-oN", label:"Normal output", hint:"human-readable log file", value:"scan.nmap" },
+  { cat:"output", flag:"-oX", label:"XML output", hint:"for reports and parsers", value:"scan.xml" },
+  { cat:"output", flag:"-oA", label:"All formats", hint:"normal + xml + grepable at once", value:"scan" },
+  { cat:"output", flag:"-oG", label:"Grepable", hint:"one host per line \u2014 deprecated but handy", value:"scan.gnmap", adv:true },
+  { cat:"output", flag:"-oS", label:"Script kiddie", hint:"l33t h4x0r 0utPUt format (yes, really)", value:"scan.sk3", adv:true },
+  { cat:"output", flag:"-v", label:"Verbose", hint:"show results as they arrive" },
+  { cat:"output", flag:"--reason", label:"Reasons", hint:"why is each port in this state?" },
+  { cat:"output", flag:"--open", label:"Open only", hint:"hide closed and filtered noise" },
+  { cat:"output", flag:"-d", label:"Debug", hint:"flood of internals \u2014 for devs", adv:true },
+  { cat:"output", flag:"--stats-every", label:"Stats interval", hint:"progress report every N", value:"10s", adv:true },
+  { cat:"output", flag:"--packet-trace", label:"Packet trace", hint:"print every packet sent/received", root:true, adv:true },
+  { cat:"output", flag:"--iflist", label:"List interfaces", hint:"show interfaces and routes, then exit", adv:true },
+  { cat:"output", flag:"--append-output", label:"Append", hint:"add to output files instead of overwriting", adv:true },
+  { cat:"output", flag:"--resume", label:"Resume", hint:"continue an aborted scan from a log file", value:"scan.nmap", adv:true },
+  { cat:"output", flag:"--noninteractive", label:"No keyboard", hint:"ignore runtime keypresses (background runs)", adv:true },
+  { cat:"output", flag:"--stylesheet", label:"Stylesheet", hint:"custom XSL for the XML output", value:"https://nmap.org/svn/docs/nmap.xsl", adv:true },
+  { cat:"misc", flag:"-6", label:"IPv6", hint:"scan IPv6 targets \u2014 syntax: -6 fe80::1%eth0" },
+  { cat:"misc", flag:"--privileged", label:"Assume privileged", hint:"skip the root checks (capabilities setups)" },
+  { cat:"misc", flag:"--unprivileged", label:"Assume unprivileged", hint:"force non-privileged mode for testing", adv:true },
+  { cat:"misc", flag:"--send-eth", label:"Raw ethernet", hint:"send at data-link layer, bypassing IP layer", root:true, adv:true },
+  { cat:"misc", flag:"--send-ip", label:"Raw IP", hint:"send via raw IP sockets (default on unix)", root:true, adv:true },
+  { cat:"misc", flag:"--datadir", label:"Data dir", hint:"custom location for nmap data files", value:"/opt/nmap", adv:true },
+  { cat:"misc", flag:"--release-memory", label:"Release memory", hint:"free memory before exit \u2014 leak debugging", adv:true }
 ];
-
 const PRESETS = [
-  { name:'Quick recon', set:['-sS','-sV','-sC','-oN'], vals:{'-oN':'init.nmap'} },
-  { name:'Full sweep', set:['-sS','-p-','--min-rate','-sV','-sC','-oA'], vals:{'--min-rate':'10000','-oA':'full'} },
+  { name:'Quick recon', set:['-PE','-PP','-PS443','-PA80','-sS','-sV','-sC','-T4','-v','-oN'], vals:{'-oN':'init.nmap'} },
+  { name:'Full sweep', set:['-PE','-PP','-PS443','-PA80','-sS','-p-','--min-rate','-sV','-sC','-T4','-v','-oA'], vals:{'--min-rate':'10000','-oA':'full'} },
   { name:'Ghost mode', set:['-Pn','-sS','-T1','-f','-D','--source-port'], vals:{'-D':'RND:10','--source-port':'53'} },
-  { name:'UDP hunter', set:['-sU','--top-ports','-sV'], vals:{'--top-ports':'100'} },
+  { name:'UDP hunter', set:['-PE','-PP','-PS443','-PA80','-sU','--top-ports','-sV','-T4','-v'], vals:{'--top-ports':'100'} },
 ];
 
-const state = { sel:new Set(), vals:{}, root:true, target:'', adv:{} };
+const state = { sel:new Set(), vals:{}, root:true, target:'', adv:{}, focus:null };
 FLAGS.forEach(f => { if (f.def) state.sel.add(f.flag); });
 
 const catsEl = document.getElementById('cats');
+const cmdbar = document.getElementById('cmdbar');
 const cmdOut = document.getElementById('cmdOut');
-const warnOut = document.getElementById('warnOut');
-const footCount = document.getElementById('footCount');
-const rootEl = document.getElementById('isRoot');
-const targetEl = document.getElementById('target');
+const backBtn = document.getElementById('backBtn');
+
+function activeFlags(cat){
+  return FLAGS.filter(f => f.cat===cat && state.sel.has(f.flag) && !(f.root && !state.root));
+}
 
 function flagRow(f, dis){
   if (f.adv && !state.adv[f.cat]) return '';
-  return `<div class="flag-row ${dis?'disabled':''} ${f.adv?'adv':''}" data-flag="${f.flag}">
+  const deepHtml = f.deep ? `<div class="deep-box" data-deepbox="${f.flag}" style="display:none">${f.deep}${f.cancels?`<div class="cancels"><b>cancels/overrides:</b> ${f.cancels}</div>`:''}</div>` : '';
+  return `<div class="flag-row ${dis?'disabled':''} ${f.adv?'adv':''}">
     <input type="checkbox" data-f="${f.flag}" ${state.sel.has(f.flag)&&!dis?'checked':''} ${dis?'disabled':''}>
     <div class="flag-main">
       <div class="flag-top">
@@ -264,29 +289,60 @@ function flagRow(f, dis){
         ${f.adv?'<span class="tag tag-adv">adv</span>':''}
         ${f.value?`<input class="flag-val" data-v="${f.flag}" placeholder="${f.value}" value="${state.vals[f.flag]||''}">`:''}
       </div>
-      <div class="flag-hint">${f.hint}</div>
+      <div class="flag-hint">${f.hint}${f.deep?` <button class="q-btn" data-q="${f.flag}" title="deeper explanation">?</button>`:''}</div>
+      ${deepHtml}
     </div>
   </div>`;
 }
 
+function catDetails(c, forceOpen){
+  const det = document.createElement('details');
+  det.className = 'cat'; det.open = forceOpen;
+  const fl = FLAGS.filter(f => f.cat === c.id);
+  const rows = fl.map(f => flagRow(f, f.root && !state.root)).join('');
+  const advCount = fl.filter(f => f.adv).length;
+  const toggle = advCount ? `<button class="adv-toggle" data-advcat="${c.id}">${state.adv[c.id]?'− hide':'+ show'} advanced (${advCount})</button>` : '';
+  det.innerHTML = `<summary>${c.name}<span class="chev">▸</span></summary><div class="cat-body">${rows}${toggle}</div>`;
+  return det;
+}
+
 function renderCats(){
   catsEl.innerHTML = '';
-  CATS.forEach((c, ci) => {
-    const det = document.createElement('details');
-    det.className = 'cat';
-    if (ci > 0 && ci < 4) det.open = true;
-    const fl = FLAGS.filter(f => f.cat === c.id);
-    const rows = fl.map(f => flagRow(f, f.root && !state.root)).join('');
-    const advCount = fl.filter(f => f.adv).length;
-    const toggle = advCount ? `<button class="adv-toggle" data-advcat="${c.id}">${state.adv[c.id]?'− hide':'+ show'} advanced (${advCount})</button>` : '';
-    det.innerHTML = `<summary>${c.name}<span class="chev">▸</span></summary><div class="cat-body">${rows}${toggle}</div>`;
-    catsEl.appendChild(det);
+  if (state.focus) {
+    const c = CATS.find(x => x.id === state.focus);
+    if (c) catsEl.appendChild(catDetails(c, true));
+  } else {
+    CATS.forEach(c => catsEl.appendChild(catDetails(c, ['discovery','portscan'].includes(c.id))));
+  }
+  backBtn.style.display = state.focus ? 'inline-block' : 'none';
+}
+
+function renderBar(){
+  let h = '<span class="pfx">sudo nmap</span>';
+  BOXES.forEach(b => {
+    const active = state.focus === b;
+    if (b === 'target') {
+      h += `<span class="box ${active?'active':''}" data-box="target" title="click to focus on this stage">[<input id="tgtBox" placeholder="TARGET" value="${state.target}">]</span>`;
+      return;
+    }
+    const sel = activeFlags(b);
+    const chips = sel.map(f => {
+      const v = state.vals[f.flag] || f.value;
+      return `<span class="chip">${f.flag}${f.value&&v?' '+v:''}</span>`;
+    });
+    (INFO_CHIPS[b]||[]).forEach(i => chips.push(`<span class="info" title="${i.d}">${i.t}</span>`));
+    const inner = chips.length ? chips.join('') : '<span style="opacity:.5">--</span>';
+    h += `<span class="box ${sel.length?'':'empty'} ${active?'active':''}" data-box="${b}" title="click to focus on ${BOX_LABEL[b]}">[${inner}]</span>`;
   });
+  h += `<span class="tgt-end">${state.target.trim()||'<TARGET>'}</span>';
+  cmdbar.innerHTML = h;
+  const ti = document.getElementById('tgtBox');
+  if (ti) ti.addEventListener('input', () => { state.target = ti.value; render(); });
 }
 
 function command(){
   const parts = ['<span class="dim">sudo</span>','nmap'];
-  CATS.forEach(c => FLAGS.filter(f => f.cat===c.id && state.sel.has(f.flag) && !(f.root && !state.root)).forEach(f => {
+  CATS.forEach(c => activeFlags(c.id).forEach(f => {
     let t = f.flag;
     const v = state.vals[f.flag] || f.value;
     if (f.value && v) t += ' ' + v;
@@ -309,11 +365,24 @@ function warnings(){
 }
 
 function render(){
+  renderBar();
+  renderCats();
   cmdOut.innerHTML = command();
-  warnOut.innerHTML = warnings().map(x => `<div class="warn">${x}</div>`).join('');
+  const active = [];
+  CATS.forEach(c => activeFlags(c.id).forEach(f => active.push(f.sum || f.label || f.flag)));
+  document.getElementById('sumList').innerHTML = active.map(s => `<li>${s}</li>`).join('') || '<li style="color:var(--text-4)">no flags selected yet</li>';
+  document.getElementById('warnOut').innerHTML = warnings().map(x => `<div class="warn">${x}</div>`).join('');
   const selCount = [...state.sel].filter(f => { const x = FLAGS.find(y=>y.flag===f); return !(x.root && !state.root); }).length;
-  footCount.textContent = `Nmap Forge v0.2 — ${FLAGS.length} flags · ${selCount} selected · runs 100% offline in your browser`;
+  document.getElementById('footCount').textContent = `Nmap Forge v2.0 — ${FLAGS.length} flags · ${selCount} selected · runs 100% offline in your browser`;
 }
+
+cmdbar.addEventListener('click', e => {
+  const b = e.target.closest('[data-box]');
+  if (!b || e.target.tagName === 'INPUT') return;
+  state.focus = state.focus === b.dataset.box ? null : b.dataset.box;
+  render();
+});
+backBtn.onclick = () => { state.focus = null; render(); };
 
 catsEl.addEventListener('change', e => {
   const f = FLAGS.find(x => x.flag === e.target.dataset.f);
@@ -322,31 +391,27 @@ catsEl.addEventListener('change', e => {
     if (f.group) FLAGS.filter(x => x.group === f.group).forEach(x => state.sel.delete(x.flag));
     state.sel.add(f.flag);
   } else state.sel.delete(f.flag);
-  renderCats(); render();
+  render();
 });
-catsEl.addEventListener('input', e => {
-  if (e.target.dataset.v) { state.vals[e.target.dataset.v] = e.target.value; render(); }
-});
+catsEl.addEventListener('input', e => { if (e.target.dataset.v) { state.vals[e.target.dataset.v] = e.target.value; render(); } });
 catsEl.addEventListener('click', e => {
   const c = e.target.dataset.advcat;
-  if (c) { state.adv[c] = !state.adv[c]; renderCats(); render(); }
+  if (c) { state.adv[c] = !state.adv[c]; render(); return; }
+  const q = e.target.dataset.q;
+  if (q) {
+    const box = catsEl.querySelector(`[data-deepbox="${CSS.escape(q)}"]`);
+    if (box) box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  }
 });
-rootEl.addEventListener('change', () => { state.root = rootEl.checked; renderCats(); render(); });
-targetEl.addEventListener('input', () => { state.target = targetEl.value; render(); });
+document.getElementById('isRoot').addEventListener('change', e => { state.root = e.target.checked; render(); });
 
 const presetsEl = document.getElementById('presets');
 PRESETS.forEach(p => {
   const b = document.createElement('button');
   b.className = 'preset'; b.textContent = p.name;
-  b.onclick = () => {
-    state.sel = new Set(); state.vals = {};
-    p.set.forEach(f => state.sel.add(f));
-    Object.assign(state.vals, p.vals);
-    renderCats(); render();
-  };
+  b.onclick = () => { state.sel = new Set(); state.vals = {}; state.focus = null; p.set.forEach(f => state.sel.add(f)); Object.assign(state.vals, p.vals); render(); };
   presetsEl.appendChild(b);
 });
-
 document.getElementById('copyBtn').onclick = () => {
   const txt = cmdOut.textContent;
   if (navigator.clipboard) navigator.clipboard.writeText(txt);
@@ -354,7 +419,7 @@ document.getElementById('copyBtn').onclick = () => {
   b.textContent = 'Copied'; setTimeout(() => b.textContent = 'Copy command', 1200);
 };
 
-renderCats(); render();
+render();
 </script>
 </body>
 </html>
