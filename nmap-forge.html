@@ -334,7 +334,7 @@ function renderBar(){
     const inner = chips.length ? chips.join('') : '<span style="opacity:.5">--</span>';
     h += `<span class="box ${sel.length?'':'empty'} ${active?'active':''}" data-box="${b}" title="click to focus on ${BOX_LABEL[b]}">[${inner}]</span>`;
   });
-  h += `<span class="tgt-end">${state.target.trim()||'<TARGET>'}</span>';
+  h += `<span class="tgt-end">${state.target.trim()||'<TARGET>'}</span>`;
   cmdbar.innerHTML = h;
   const ti = document.getElementById('tgtBox');
   if (ti) ti.addEventListener('input', () => { state.target = ti.value; render(); });
