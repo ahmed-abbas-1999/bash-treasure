@@ -3,94 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nmap Forge — interactive nmap command builder</title>
-<style>
-  :root{
+<title>Bash Treasure — pentest cheat sheets & tools</title>
+<style>:root{--bg:#141416;--bg-soft:#1c1c1f;--text:#e8e8ea;--text-2:#b0b0b8;--text-3:#8a8a92;--text-4:#55555e;--warn:#f0b429;--danger:#e5484d;--border:rgba(255,255,255,.12);--border-soft:rgba(255,255,255,.08);--mono:"SF Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;--sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.5}
+  a{color:var(--text-2)}
+  .site{max-width:1140px;margin:0 auto;padding:20px 16px 60px;display:flex;flex-direction:column;gap:14px}
+  .site-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:4px 2px}
+  .site-title{font-size:21px;font-weight:600}
+  .site-sub{font-size:12.5px;color:var(--text-3)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;position:sticky;top:0;background:var(--bg);padding:10px 0;z-index:10;border-bottom:1px solid var(--border-soft)}
+  .tab-btn{border:1px solid var(--border);background:transparent;color:var(--text-2);border-radius:8px;padding:6px 13px;font-size:13px;cursor:pointer;transition:.15s;font-family:var(--sans)}
+  .tab-btn:hover{color:var(--text);border-color:var(--text-3)}
+  .tab-btn.active{color:var(--text);border-color:var(--text);background:rgba(255,255,255,.06);font-weight:600}
+  .tab-page{display:none;flex-direction:column;gap:14px}
+  .tab-page.active{display:flex}
+  .svc-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .svc-name{font-size:18px;font-weight:600}
+  .svc-port{font-family:var(--mono);font-size:12px;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:2px 8px}
+  .svc-table-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
+  table.svc{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.svc th{text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--text-3);padding:7px 10px;border-bottom:1px solid var(--border)}
+  table.svc td{padding:8px 10px;border-bottom:1px solid var(--border-soft);vertical-align:top;line-height:1.55}
+  table.svc tr:hover td{background:rgba(255,255,255,.03)}
+  td.cmd{font-family:var(--mono);font-size:12.5px;color:var(--text);white-space:pre-wrap;word-break:break-word;min-width:260px}
+  td.why{color:var(--text-2)}
+  .notes{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+  .note{font-size:12.5px;color:var(--text-2);background:rgba(255,255,255,.04);border-left:2px solid var(--text-4);border-radius:0 8px 8px 0;padding:8px 12px;line-height:1.6}
+  .note b{color:var(--text)}
+  .disclaimer{font-size:12px;color:var(--text-4);border-top:1px solid var(--border-soft);padding-top:14px;margin-top:10px}
+#forge :root{
     --bg:#141416; --bg-soft:#1c1c1f; --text:#e8e8ea; --text-2:#b0b0b8;
     --text-3:#8a8a92; --text-4:#55555e; --warn:#f0b429; --danger:#e5484d;
     --border:rgba(255,255,255,.12); --border-soft:rgba(255,255,255,.08);
     --mono:"SF Mono",ui-monospace,Menlo,Consolas,"Liberation Mono",monospace;
-    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);padding:24px 16px 60px;line-height:1.5}
-  .wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
-  .head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-  .title{font-size:20px;font-weight:600}
-  .head-right{display:flex;align-items:center;gap:16px}
-  .root-toggle{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-2);cursor:pointer}
-  .root-toggle input{accent-color:var(--text);width:16px;height:16px}
-  .copy-btn{border:1px solid var(--text);background:transparent;color:var(--text);border-radius:8px;padding:7px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
-  .copy-btn:hover{background:rgba(255,255,255,.08)}
-  .presets{display:flex;gap:8px;flex-wrap:wrap}
-  .preset{border:1px solid var(--border);background:transparent;color:var(--text-2);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;transition:.15s}
-  .preset:hover{color:var(--text);border-color:var(--text)}
-
-  /* ── صف الأمر بالمربعات ── */
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+#forge *{box-sizing:border-box}
+#forge{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);padding:24px 16px 60px;line-height:1.5}
+#forge .wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+#forge .head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+#forge .title{font-size:20px;font-weight:600}
+#forge .head-right{display:flex;align-items:center;gap:16px}
+#forge .root-toggle{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text-2);cursor:pointer}
+#forge .root-toggle input{accent-color:var(--text);width:16px;height:16px}
+#forge .copy-btn{border:1px solid var(--text);background:transparent;color:var(--text);border-radius:8px;padding:7px 16px;font-size:14px;font-weight:600;cursor:pointer;transition:.15s}
+#forge .copy-btn:hover{background:rgba(255,255,255,.08)}
+#forge .presets{display:flex;gap:8px;flex-wrap:wrap}
+#forge .preset{border:1px solid var(--border);background:transparent;color:var(--text-2);border-radius:6px;padding:6px 14px;font-size:13px;cursor:pointer;transition:.15s}
+#forge .preset:hover{color:var(--text);border-color:var(--text)}
+#forge /* ── صف الأمر بالمربعات ── */
   .cmdbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--mono);font-size:13px}
-  .cmdbar .pfx{color:var(--text-2)}
-  .box{border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:var(--text);transition:.15s;background:transparent;max-width:100%}
-  .box:hover{border-color:var(--text)}
-  .box.active{border-color:var(--text);background:rgba(255,255,255,.08)}
-  .box.empty{color:var(--text-4);border-style:dashed}
-  .box .chip{white-space:nowrap}
-  .box .info{font-size:11px;color:var(--text-3);border:1px dashed var(--text-4);border-radius:6px;padding:0 6px;white-space:nowrap}
-  .box input{font-family:var(--mono);font-size:12.5px;border:none;background:transparent;color:var(--text);width:150px;padding:2px 0}
-  .box input:focus{outline:none}
-  .box input::placeholder{color:var(--text-4)}
-  .tgt-end{color:var(--text-3)}
-
-  .back-btn{align-self:flex-start;border:none;background:transparent;color:var(--text-2);font-size:13px;cursor:pointer;padding:5px 10px;border-radius:6px;display:none}
-  .back-btn:hover{color:var(--text);background:rgba(255,255,255,.06)}
-
-  .cols{display:grid;grid-template-columns:1fr;gap:16px}
-  @media(min-width:860px){.cols{grid-template-columns:1.25fr 1fr}}
-  .cats{display:flex;flex-direction:column;gap:8px}
-  .cat{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-soft)}
-  .cat summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:14px;font-weight:600;display:flex;justify-content:space-between;align-items:center;user-select:none}
-  .cat summary::-webkit-details-marker{display:none}
-  .cat summary .chev{font-size:12px;color:var(--text-4);transition:.15s}
-  .cat[open] summary .chev{transform:rotate(90deg)}
-  .cat-body{border-top:1px solid var(--border-soft);padding:4px 12px 10px;display:flex;flex-direction:column;gap:2px}
-  .flag-row{display:flex;align-items:flex-start;gap:10px;padding:8px 6px;border-radius:8px;transition:.1s}
-  .flag-row:hover{background:rgba(255,255,255,.04)}
-  .flag-row.disabled{opacity:.45}
-  .flag-row.adv{border-left:2px solid var(--border);padding-left:8px}
-  .flag-row input[type=checkbox]{accent-color:var(--text);margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer}
-  .flag-main{flex:1;min-width:0}
-  .flag-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .flag-name{font-family:var(--mono);font-size:13.5px;font-weight:600}
-  .flag-label{font-size:13.5px;color:var(--text-2)}
-  .flag-hint{font-size:12px;color:var(--text-3);margin-top:2px;line-height:1.45}
-  .flag-val{font-family:var(--mono);font-size:12.5px;border:1px solid var(--border);border-radius:6px;padding:4px 9px;width:140px;background:transparent;color:var(--text)}
-  .flag-val:focus{outline:none;border-color:var(--text)}
-  .tag{font-size:11px;border-radius:6px;padding:2px 7px;font-weight:600}
-  .tag-root{color:var(--danger);background:rgba(229,72,77,.14)}
-  .tag-adv{color:var(--text-3);background:rgba(255,255,255,.07)}
-  .q-btn{width:17px;height:17px;border-radius:50%;border:1px solid var(--text-4);background:transparent;color:var(--text-3);font-size:11px;line-height:1;cursor:pointer;flex-shrink:0;padding:0;transition:.15s;display:inline-flex;align-items:center;justify-content:center}
-  .q-btn:hover{border-color:var(--text);color:var(--text)}
-  .deep-box{font-size:12px;color:var(--text-2);background:rgba(255,255,255,.04);border-left:2px solid var(--text-4);border-radius:0 6px 6px 0;padding:8px 11px;margin-top:5px;line-height:1.6}
-  .cancels{margin-top:6px;font-size:12px;color:var(--warn)}
-  .cancels b{font-weight:600}
-  .adv-toggle{align-self:flex-start;margin-top:6px;border:none;background:transparent;color:var(--text-3);font-size:12.5px;cursor:pointer;padding:5px 8px;border-radius:6px}
-  .adv-toggle:hover{color:var(--text);background:rgba(255,255,255,.06)}
-  .cmd-panel{display:flex;flex-direction:column;gap:12px;position:sticky;top:16px;align-self:start}
-  .cmd-box{border:1px solid var(--border);border-radius:12px;background:var(--bg-soft);padding:14px}
-  .cmd{font-family:var(--mono);font-size:13.5px;line-height:1.75;word-break:break-all;white-space:pre-wrap}
-  .cmd .dim{color:var(--text-3)}
-  .cmd .flag-part{font-weight:600}
-  .sum-box{border:1px dashed var(--border);border-radius:12px;padding:12px 14px}
-  .sum-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
-  .sum-box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
-  .sum-box li{font-size:13px;color:var(--text-2);line-height:1.5}
-  .warn-box{display:flex;flex-direction:column;gap:6px}
-  .warn{font-size:12.5px;color:var(--warn);background:rgba(240,180,41,.1);border-radius:8px;padding:8px 11px;line-height:1.5}
-  .foot{font-size:12px;color:var(--text-4)}
-</style>
+#forge .cmdbar .pfx{color:var(--text-2)}
+#forge .box{border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;display:inline-flex;gap:6px;align-items:center;color:var(--text);transition:.15s;background:transparent;max-width:100%}
+#forge .box:hover{border-color:var(--text)}
+#forge .box.active{border-color:var(--text);background:rgba(255,255,255,.08)}
+#forge .box.empty{color:var(--text-4);border-style:dashed}
+#forge .box .chip{white-space:nowrap}
+#forge .box .info{font-size:11px;color:var(--text-3);border:1px dashed var(--text-4);border-radius:6px;padding:0 6px;white-space:nowrap}
+#forge .box input{font-family:var(--mono);font-size:12.5px;border:none;background:transparent;color:var(--text);width:150px;padding:2px 0}
+#forge .box input:focus{outline:none}
+#forge .box input::placeholder{color:var(--text-4)}
+#forge .tgt-end{color:var(--text-3)}
+#forge .back-btn{align-self:flex-start;border:none;background:transparent;color:var(--text-2);font-size:13px;cursor:pointer;padding:5px 10px;border-radius:6px;display:none}
+#forge .back-btn:hover{color:var(--text);background:rgba(255,255,255,.06)}
+#forge .cols{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:860px){#forge .cols{grid-template-columns:1.25fr 1fr}}
+#forge .cats{display:flex;flex-direction:column;gap:8px}
+#forge .cat{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg-soft)}
+#forge .cat summary{list-style:none;cursor:pointer;padding:11px 14px;font-size:14px;font-weight:600;display:flex;justify-content:space-between;align-items:center;user-select:none}
+#forge .cat summary::-webkit-details-marker{display:none}
+#forge .cat summary .chev{font-size:12px;color:var(--text-4);transition:.15s}
+#forge .cat[open] summary .chev{transform:rotate(90deg)}
+#forge .cat-body{border-top:1px solid var(--border-soft);padding:4px 12px 10px;display:flex;flex-direction:column;gap:2px}
+#forge .flag-row{display:flex;align-items:flex-start;gap:10px;padding:8px 6px;border-radius:8px;transition:.1s}
+#forge .flag-row:hover{background:rgba(255,255,255,.04)}
+#forge .flag-row.disabled{opacity:.45}
+#forge .flag-row.adv{border-left:2px solid var(--border);padding-left:8px}
+#forge .flag-row input[type=checkbox]{accent-color:var(--text);margin-top:3px;width:15px;height:15px;flex-shrink:0;cursor:pointer}
+#forge .flag-main{flex:1;min-width:0}
+#forge .flag-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#forge .flag-name{font-family:var(--mono);font-size:13.5px;font-weight:600}
+#forge .flag-label{font-size:13.5px;color:var(--text-2)}
+#forge .flag-hint{font-size:12px;color:var(--text-3);margin-top:2px;line-height:1.45}
+#forge .flag-val{font-family:var(--mono);font-size:12.5px;border:1px solid var(--border);border-radius:6px;padding:4px 9px;width:140px;background:transparent;color:var(--text)}
+#forge .flag-val:focus{outline:none;border-color:var(--text)}
+#forge .tag{font-size:11px;border-radius:6px;padding:2px 7px;font-weight:600}
+#forge .tag-root{color:var(--danger);background:rgba(229,72,77,.14)}
+#forge .tag-adv{color:var(--text-3);background:rgba(255,255,255,.07)}
+#forge .q-btn{width:17px;height:17px;border-radius:50%;border:1px solid var(--text-4);background:transparent;color:var(--text-3);font-size:11px;line-height:1;cursor:pointer;flex-shrink:0;padding:0;transition:.15s;display:inline-flex;align-items:center;justify-content:center}
+#forge .q-btn:hover{border-color:var(--text);color:var(--text)}
+#forge .deep-box{font-size:12px;color:var(--text-2);background:rgba(255,255,255,.04);border-left:2px solid var(--text-4);border-radius:0 6px 6px 0;padding:8px 11px;margin-top:5px;line-height:1.6}
+#forge .cancels{margin-top:6px;font-size:12px;color:var(--warn)}
+#forge .cancels b{font-weight:600}
+#forge .adv-toggle{align-self:flex-start;margin-top:6px;border:none;background:transparent;color:var(--text-3);font-size:12.5px;cursor:pointer;padding:5px 8px;border-radius:6px}
+#forge .adv-toggle:hover{color:var(--text);background:rgba(255,255,255,.06)}
+#forge .cmd-panel{display:flex;flex-direction:column;gap:12px;position:sticky;top:16px;align-self:start}
+#forge .cmd-box{border:1px solid var(--border);border-radius:12px;background:var(--bg-soft);padding:14px}
+#forge .cmd{font-family:var(--mono);font-size:13.5px;line-height:1.75;word-break:break-all;white-space:pre-wrap}
+#forge .cmd .dim{color:var(--text-3)}
+#forge .cmd .flag-part{font-weight:600}
+#forge .sum-box{border:1px dashed var(--border);border-radius:12px;padding:12px 14px}
+#forge .sum-title{font-size:12px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px}
+#forge .sum-box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+#forge .sum-box li{font-size:13px;color:var(--text-2);line-height:1.5}
+#forge .warn-box{display:flex;flex-direction:column;gap:6px}
+#forge .warn{font-size:12.5px;color:var(--warn);background:rgba(240,180,41,.1);border-radius:8px;padding:8px 11px;line-height:1.5}
+#forge .foot{font-size:12px;color:var(--text-4)}</style>
 <base target="_blank">
 </head>
 <body>
-<div class="wrap">
+<div class="site">
+<div class="site-head"><div class="site-title">⚒ Bash Treasure</div><div class="site-sub">pentest cheat sheets &amp; command builder — runs 100% offline</div></div>
+<div class="tabs" id="tabs"><button class="tab-btn active" data-tab="forge">⚒ Nmap Forge</button><button class="tab-btn" data-tab="ftp">FTP</button><button class="tab-btn" data-tab="smb">SMB</button><button class="tab-btn" data-tab="nfs">NFS</button><button class="tab-btn" data-tab="dns">DNS</button><button class="tab-btn" data-tab="smtp">SMTP</button><button class="tab-btn" data-tab="imap-pop3">IMAP / POP3</button><button class="tab-btn" data-tab="snmp">SNMP</button><button class="tab-btn" data-tab="mysql">MySQL</button><button class="tab-btn" data-tab="mssql">MSSQL</button><button class="tab-btn" data-tab="oracle">Oracle TNS</button><button class="tab-btn" data-tab="ipmi">IPMI</button><button class="tab-btn" data-tab="ssh">SSH</button><button class="tab-btn" data-tab="rdp">RDP</button></div>
+<div class="tab-page active" id="page-forge"><div id="forge"><div class="wrap">
 
   <div class="head">
     <div class="title">⚒ Nmap Forge</div>
@@ -115,9 +140,47 @@
       <div class="foot" id="footCount"></div>
     </div>
   </div>
+</div></div></div>
+<div id="svc-pages"></div>
+<div class="disclaimer">Educational purposes only — test systems you own or have explicit written permission to test. Built by a CPTS student, for the community.</div>
 </div>
-
 <script>
+const SERVICES = [{"id": "ftp", "name": "FTP", "port": "21 / tcp", "tables": [{"title": "Fingerprint", "rows": [["nmap -sV -p21 <TARGET_IP>", "fingerprint the FTP server + version"], ["sudo nmap -p21 -sV --disable-arp-ping -n --packet-trace <TARGET_IP>", "verbose lab scan — --disable-arp-ping for VPN targets, -n skips DNS, --packet-trace can expose the banner directly"], ["nc -nv <TARGET_IP> 21", "grab the banner without credentials (interactive)"], ["ftp <TARGET_IP>", "start a session — the 220 greeting line reveals the version"]]}, {"title": "Access & Transfer", "rows": [["anonymous", "login username for anonymous access (password: anything)"], ["ls", "list files in the current directory"], ["cd dir", "change directory"], ["get file.txt", "download a single file"], ["mget *.txt", "download multiple files (use prompt first)"], ["put file.txt", "upload a file (needs write permission)"], ["binary", "binary transfer mode — for exe/zip/images"], ["ascii", "text transfer mode — for text files"], ["passive", "toggle passive mode — fixes hanging directory listings"], ["status", "show current settings (passive on/off, transfer type)"], ["quit or bye", "exit the session"]]}], "notes": ["Passive mode: FTP uses two channels — control (21) and a temporary data channel. In active mode the server connects back to the client (blocked by NAT/firewalls); in passive mode the client connects to a server-opened port. If login works but ls hangs — type passive.", "Code 220: the first line any FTP server sends is its greeting (220 ...) — even a plain connection reveals the version."]}, {"id": "smb", "name": "SMB", "port": "139, 445 / tcp", "tables": [{"title": "Phase 1 — Fingerprint", "rows": [["nmap -sV -p139,445 <TARGET_IP>", "fingerprint SMB service + exact version (needed for CVE lookup)"], ["nmap --script=smb-os-discovery -p445 <TARGET_IP>", "OS name, domain, SMB dialect version"], ["nmap --script=\"smb-vuln-*\" -p445 <TARGET_IP>", "test for known SMB CVEs (e.g. MS17-010)"]]}, {"title": "Phase 2 — Enumerate shares (null session)", "rows": [["smbmap -H <TARGET_IP>", "quick map of all shares + your access level (READ/WRITE) on each"], ["smbclient -N -L <TARGET_IP>", "list all shares anonymously (-N = no password, -L = list)"], ["enum4linux-ng <TARGET_IP> -A", "full automated enumeration: shares, users, groups, OS, password policy"], ["nmap --script=\"smb-enum-*\" -p445 <TARGET_IP>", "every SMB enumeration script via NSE"]]}, {"title": "Phase 3 — Access & loot", "rows": [["smbclient //<TARGET_IP>/SHARE -N", "connect to a share (interactive smb: \\> prompt)"], ["ls", "list files in the share"], ["cd dir", "move between directories"], ["get file.txt", "download a file"], ["put file.txt", "upload a file (WRITE-access shares only)"], ["recurse", "enable recursive mode"], ["prompt", "toggle confirmations off (for mass download)"], ["mget *", "download everything in current directory"], ["!command", "run a shell command without leaving smbclient (e.g. !cat flag.txt)"], ["quit", "exit smbclient"]]}, {"title": "Phase 4 — Deep enumeration via RPC (null session)", "rows": [["rpcclient -U \"\" <TARGET_IP>", "null session over RPC (empty user, Enter at password → rpcclient $>)"], ["querydominfo", "inside rpcclient — domain name, server name, server role (PDC/BDC)"], ["netsharegetinfo SHARE", "inside rpcclient — share remark, real disk path, permissions"]]}], "notes": ["139 vs 445: 139 = SMB over legacy NetBIOS; 445 = modern SMB over TCP (your main target).", "SMB versions: SMB1 (CIFS — old, EternalBlue-era), SMB2, SMB3 — the same tools work on all; the version matters for CVE matching.", "WRITE access = attack surface: writable shares allow upload (webshells, loot storage).", "Samba quirk: Linux Samba servers display share paths Windows-style (C:\\home\\user\\) — the real path is /home/user.", "Standard workflow: nmap -sV -sC → smbclient -N -L → connect + get → rpcclient -U \"\" → querydominfo → netsharegetinfo."]}, {"id": "nfs", "name": "NFS", "port": "2049 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["showmount -e <TARGET_IP>", "list exported shares + who can access them"], ["mkdir NFS && sudo mount -t nfs <TARGET_IP>:/share ./NFS/", "create mount point and mount the share"], ["ls -lA NFS/", "inspect files (check sizes — non-zero = has content)"], ["cat NFS/file.txt", "read files directly"], ["rpcinfo -p <TARGET_IP>", "list RPC services (nfs, mountd, nlockmgr...)"], ["sudo umount ./NFS", "unmount when done"], ["nmap -sV --script=\"nfs-*\" -p111,2049 <TARGET_IP>", "full NFS enumeration via NSE"]]}], "notes": ["Mounting requires root (sudo). Exports restricted to specific subnets (e.g. 10.0.0.0/8) mean you may need a source IP inside that range — pivot through it.", "Ticket-style files in shares are a classic credential-leak source — read everything non-empty."]}, {"id": "dns", "name": "DNS", "port": "53 / tcp+udp", "tables": [{"title": "Command | Purpose", "rows": [["dig <DOMAIN> @<TARGET_IP>", "basic A record query against the target server"], ["dig ANY <DOMAIN> @<TARGET_IP>", "dump ALL records (TXT, SOA, NS, A...)"], ["dig MX <DOMAIN> @<TARGET_IP> / dig NS <DOMAIN> @<TARGET_IP>", "mail servers / name servers"], ["dig -x <TARGET_IP> @<TARGET_IP>", "reverse lookup"], ["host <DOMAIN> <TARGET_IP>", "quick alternative to dig"], ["dig AXFR <DOMAIN> @<TARGET_IP>", "zone transfer — dumps the entire zone if misconfigured"], ["dig AXFR <SUB>.<DOMAIN> @<TARGET_IP>", "zone transfer on a subdomain (different data!)"], ["dnsenum --dnsserver <TARGET_IP> --enum -p 0 -s 0 -f wordlist.txt <DOMAIN>", "bruteforce subdomains"], ["sudo sh -c 'echo \"<TARGET_IP> hostname\" >> /etc/hosts'", "map internal hostnames locally"]]}], "notes": ["A successful AXFR is gold: full host list, internal IPs, and sometimes flags hidden in TXT records. Always try AXFR on every subdomain you discover.", "TXT records often leak SPF configuration (mail infrastructure), verification tokens, and internal naming conventions."]}, {"id": "smtp", "name": "SMTP", "port": "25 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["telnet <TARGET_IP> 25", "connect + grab banner (220 ...)"], ["nc <TARGET_IP> 25  →  VRFY root / EXPN admin", "manual user validation (EXPN expands mailing lists)"], ["RCPT trick", "send MAIL FROM:x then RCPT TO:<user> — 'User unknown' vs 250 reply reveals validity"], ["smtp-user-enum -M VRFY -U wordlist.txt -t <TARGET_IP> -w 20", "bruteforce valid usernames"], ["nmap --script=\"smtp-*\" -p25 <TARGET_IP>", "enum-users, commands, open-relay checks"]]}], "notes": ["Usernames harvested here feed directly into brute-force attacks (ssh, smb, web logins) — save every valid user.", "A 250 reply to an unauthenticated RCPT confirms both the user and an open relay configuration."]}, {"id": "imap-pop3", "name": "IMAP / POP3", "port": "110, 143, 993, 995 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["nmap -p110,143,993,995 -sC -sV <TARGET_IP>", "scan all 4 ports — SSL cert leaks org name + FQDN"], ["openssl s_client -connect <TARGET_IP>:imaps", "connect to 993 (IMAPS) — banner can hide flags"], ["openssl s_client -connect <TARGET_IP>:pop3s", "connect to 995 (POP3S)"], ["openssl s_client -starttls imap -connect <TARGET_IP>:143", "STARTTLS on plain IMAP"], ["telnet <TARGET_IP> 110", "POP3 banner (+OK ...)"], ["tag0 LOGIN user pass", "authenticate inside IMAP"], ["tag1 LIST \"\" \"*\"", "list all mailboxes/folders"], ["tag2 SELECT \"MAILBOX\"", "open a mailbox"], ["tag3 FETCH 1 (BODY[])", "read full email #1"], ["USER x → PASS x → LIST → RETR 1", "POP3 manual email reading flow"]]}], "notes": ["The IMAP tag can be any string (tag0, a1, 1337...) — it's just a label so you can match replies.", "Emails are a top-tier loot source: credentials, SSH private keys, and config snippets appear constantly."]}, {"id": "snmp", "name": "SNMP", "port": "161 / udp", "tables": [{"title": "Command | Purpose", "rows": [["nmap -sU -sV -sC -p U:161 <TARGET_IP>", "confirm SNMP version (UDP — often forgotten!)"], ["snmpwalk -v2c -c public <TARGET_IP> | tee SNMPWalk.txt", "dump everything, save to file"], ["grep \"@\" SNMPWalk.txt", "hunt emails/credentials in output"], ["grep -m 1 -B 8 \"FLAG{\" SNMPWalk.txt", "context search (scripts, flags, running processes)"], ["onesixtyone -c community-strings.txt <TARGET_IP>", "bruteforce community strings"], ["snmp-check <TARGET_IP>", "clean formatted report (users, processes, network)"], ["snmpget -v2c -c public <TARGET_IP> <OID>", "query a single specific OID"]]}], "notes": ["Default community strings to try first: public / private / manager.", "SNMP process listings (hrSWRun) expose full command lines — passwords in cleartext are common."]}, {"id": "mysql", "name": "MySQL", "port": "3306 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["nmap -p3306 -sV <TARGET_IP>", "version fingerprint"], ["nmap --script=\"mysql-*\" -p3306 <TARGET_IP>", "empty-password, users, databases checks"], ["mysql -u user -ppass -h <TARGET_IP> --skip-ssl-verify-server-cert", "connect (no space after -p)"], ["show databases;", "list databases"], ["use dbname;  /  show tables;  /  describe table;", "navigate the schema"], ["SELECT col FROM table WHERE name = \"X\";", "extract data"], ["hydra -l user -P pass.txt <TARGET_IP> mysql", "brute force credentials"]]}], "notes": ["The -p flag takes the password attached directly (-psecret) or prompts when bare (-p).", "Customer databases routinely contain cleartext credentials, PAN/CVV pairs, and API keys — describe every table you find."]}, {"id": "mssql", "name": "MSSQL", "port": "1433 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["nmap --script=\"ms-sql-*\" -sV -p1433 <TARGET_IP>", "info, config, hashes, tables, NTLM info"], ["impacket-mssqlclient user@<TARGET_IP> -windows-auth", "connect with Windows authentication"], ["SELECT name FROM sys.databases;", "list databases"], ["SELECT @@version;", "version string"], ["enable_xp_cmdshell  →  xp_cmdshell whoami", "RCE — the classic MSSQL escalation"]]}], "notes": ["Weak/default credentials (sa with empty password) are still found in the wild — the ms-sql-empty-password script checks instantly.", "xp_cmdshell gives OS command execution as the service account — immediate foothold."]}, {"id": "oracle", "name": "Oracle TNS", "port": "1521 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["python3 odat.py all -s <TARGET_IP>", "full Oracle attack suite (SIDs, credentials, exploits)"], ["sqlplus user/pass@<TARGET_IP>/SID as sysdba", "connect with found credentials"], ["select name, password from sys.user$ where name='USER';", "dump password hashes"]]}], "notes": ["Setup is heavy (cx_Oracle + odat dependencies) — let odat do everything, it enumerates SIDs and tests default credentials automatically.", "Classic default accounts: scott/tiger, system/manager — still worth trying first."]}, {"id": "ipmi", "name": "IPMI", "port": "623 / udp", "tables": [{"title": "Command | Purpose", "rows": [["msfconsole → use auxiliary/scanner/ipmi/ipmi_version → run", "version scan first"], ["msfconsole → use auxiliary/scanner/ipmi/ipmi_dumphashes → run", "dump password hashes (HMAC)"], ["hashcat -m 7300 hash.txt rockyou.txt", "crack IPMI hash (mode 7300)"]]}], "notes": ["IPMI runs on UDP 623 — include it in your UDP scans or you will miss it entirely.", "Cracked IPMI credentials often give full BMC control: power cycling, console access, and user management."]}, {"id": "ssh", "name": "SSH", "port": "22 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["ssh user@<TARGET_IP>", "password login"], ["ssh -i id_rsa user@<TARGET_IP>", "login with private key"], ["chmod 600 id_rsa", "mandatory before using any private key — wrong permissions are refused"], ["hydra -l user -P pass.txt <TARGET_IP> ssh", "brute force credentials"]]}], "notes": ["Private keys leak everywhere: FTP/SMB shares, git repos, backup folders. chmod 600 then try every user you have collected."]}, {"id": "rdp", "name": "RDP", "port": "3389 / tcp", "tables": [{"title": "Command | Purpose", "rows": [["xfreerdp /v:<TARGET_IP> /u:Administrator /p:'pass' /dynamic-resolution", "connect to the Windows desktop"], ["xfreerdp /v:<TARGET_IP> /u:user /p:'pass' /cert:ignore /dynamic-resolution", "skip the certificate warning prompt"]]}], "notes": ["nmap's rdp-ntlm-info script (part of -sC on 3389) leaks hostname, domain, and Windows version before you even log in."]}];
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function renderServices(){
+  const host=document.getElementById('svc-pages');
+  SERVICES.forEach(s=>{
+    const page=document.createElement('div');
+    page.className='tab-page'; page.id='page-'+s.id;
+    let h='<div class="svc-head"><span class="svc-name">'+esc(s.name)+'</span><span class="svc-port">port '+esc(s.port)+'</span></div>';
+    s.tables.forEach(tb=>{
+      h+='<div class="svc-table-title">'+esc(tb.title)+'</div><table class="svc"><tr><th style="width:45%">Command</th><th>Purpose</th></tr>';
+      tb.rows.forEach(r=>{ h+='<tr><td class="cmd">'+esc(r[0])+'</td><td class="why">'+esc(r[1])+'</td></tr>'; });
+      h+='</table>';
+    });
+    if(s.notes.length){ h+='<div class="svc-table-title">Notes</div><div class="notes">'+s.notes.map(n=>'<div class="note">'+esc(n)+'</div>').join('')+'</div>'; }
+    page.innerHTML=h;
+    host.appendChild(page);
+  });
+}
+function showTab(id){
+  document.querySelectorAll('.tab-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  const page=document.getElementById('page-'+id);
+  if(page) page.classList.add('active');
+  const btn=document.querySelector('[data-tab="'+id+'"]');
+  if(btn) btn.classList.add('active');
+}
+renderServices();
+document.getElementById('tabs').addEventListener('click',e=>{
+  const b=e.target.closest('[data-tab]');
+  if(b) showTab(b.dataset.tab);
+});
+showTab('forge');
+
+(function(){
+
 const CATS = [
   { id:'target', name:'Target' },
   { id:'discovery', name:'Host discovery' },
@@ -420,6 +483,8 @@ document.getElementById('copyBtn').onclick = () => {
 };
 
 render();
+
+})();
 </script>
 </body>
 </html>
